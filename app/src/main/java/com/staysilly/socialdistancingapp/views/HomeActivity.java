@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d(TAG, "found last known location");
                 if (map!=null){
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(16).bearing(90).tilt(30).build();
+                    CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(5).bearing(0).tilt(30).build();
                     map.animateCamera(CameraUpdateFactory.newCameraPosition(myPosition));
                 }
             }
