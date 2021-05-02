@@ -16,4 +16,23 @@
         android:layout_height="match_parent"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
+    <LinearLayout
+        android:id="@+id/crdSocialDistancingAlert"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:background="#ff0011">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lotSocialDistancing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_rawRes="@raw/social_distancing"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+    </LinearLayout>
+
 </FrameLayout>
