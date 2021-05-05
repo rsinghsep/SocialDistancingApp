@@ -17,6 +17,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.staysilly.socialdistancingapp.R;
+import com.staysilly.socialdistancingapp.models.UserLocation;
+import com.staysilly.socialdistancingapp.repository.AppRepository;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,9 +69,21 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onSuccess(Location location) {
                 Log.d(TAG, "found last known location");
                 if (map!=null){
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    LatLng latLng = new LatLng(latitude, longitude);
                     CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(5).bearing(0).tilt(30).build();
                     map.animateCamera(CameraUpdateFactory.newCameraPosition(myPosition));
+
+                    String id = AppRepository.getCurrentUserId(HomeActivity.this);
+
+                    UserLocation userLocation = new UserLocation(
+                            AppRepository.getCurrentUserId(HomeActivity.this),
+                            latitude,
+                            longitude,
+                            true);
+                    AppRepository.saveUserCurrentLocation(userLocation);
                 }
             }
         });

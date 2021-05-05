@@ -1,7 +1,8 @@
 package com.staysilly.socialdistancingapp.repository;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,20 +25,19 @@ public class AppRepository {
     /*/////////////////////////////////////////////////
     //PRIVATE METHODS
     /*/////////////////////////////////////////////////
-    public static void saveUserCurrentLocation(Context context){
+    public static void saveUserCurrentLocation(UserLocation userLocation){
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = database.collection(USER_LOCATION_COLLECTION);
-
-        UserLocation location = new UserLocation("16582374-234723-2354823-75234", 12721.232, 432432.2123, true);
-
         collectionReference.document()
-                .set(location);
+                .set(userLocation);
     }
-    public static String getCurrentUserId(Activity context){
-        return context.getPreferences(Context.MODE_PRIVATE).getString(KEY_USER_UUID, UNKNOWN);
+    public static String getCurrentUserId(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(KEY_USER_UUID, UNKNOWN);
     }
-    public static void setCurrentUserId(Activity context){
-        context.getPreferences(Context.MODE_PRIVATE).edit().putString(KEY_USER_UUID, UUID.randomUUID().toString()).apply();;
+    public static void setCurrentUserId(Context context){
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putString(KEY_USER_UUID, UUID.randomUUID().toString()).apply();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.staysilly.socialdistancingapp.views;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
     /*/////////////////////////////////////////////////
     //MEMBERS
     /*/////////////////////////////////////////////////
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "**"+this.getClass().getSimpleName();
 
 
     /*/////////////////////////////////////////////////
@@ -33,10 +33,11 @@ public class SplashActivity extends AppCompatActivity {
     /*/////////////////////////////////////////////////
     //PRIVATE METHODS
     /*/////////////////////////////////////////////////
-    private void checkCurrentUserAndLaunchHomeScreen(Activity activity){
-        String currentUserId = AppRepository.getCurrentUserId(activity);
+    private void checkCurrentUserAndLaunchHomeScreen(Context context){
+        String currentUserId = AppRepository.getCurrentUserId(context);
         if (currentUserId==null || currentUserId.isEmpty() || currentUserId.equals(AppRepository.UNKNOWN)){
-            AppRepository.setCurrentUserId(activity);
+            Log.d(TAG, "unknown user");
+            AppRepository.setCurrentUserId(context);
         }
         startHomeActivity();
     }
@@ -44,17 +45,13 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
-    private void fakeWait(final Activity activity){
-        if (activity==null){
-            Log.d(TAG, "null activity");
-            return;
-        }
+    private void fakeWait(final Context context){
         new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {}
             @Override
             public void onFinish() {
-                checkCurrentUserAndLaunchHomeScreen(activity);
+                checkCurrentUserAndLaunchHomeScreen(context);
             }
         }.start();
     }
