@@ -56,11 +56,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             mapFragment.getMapAsync(this);
         }
     }
-    @Override
-    protected void onStop() {
-        super.onStop();
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppRepository.logoutUser(AppRepository.getCurrentUserId(this));
     }
+
 
     /*/////////////////////////////////////////////////
         //PRIVATE METHODS

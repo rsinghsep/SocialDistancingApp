@@ -1,5 +1,7 @@
 package com.staysilly.socialdistancingapp.utils;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.staysilly.socialdistancingapp.models.UserLocation;
 
@@ -33,11 +35,13 @@ public class ProximityAlarm
 //        }
         
         public static boolean isProtocolBroken(LatLng myCurrentLocation, List<UserLocation> onlineUsersLocation){
-            double[] myLatLong = {myCurrentLocation.longitude, myCurrentLocation.longitude};
+            double[] myLatLong = {myCurrentLocation.latitude, myCurrentLocation.longitude};
             ArrayList<double[]> otherUsersLocation = new ArrayList<>();
             for (UserLocation otherUserLocation : onlineUsersLocation){
                 double[] latLngArray = {otherUserLocation.getLatitude(), otherUserLocation.getLongitude()};
-                otherUsersLocation.add(latLngArray);
+                if (latLngArray[0]!=myCurrentLocation.latitude && latLngArray[1]!=myCurrentLocation.longitude){
+                    otherUsersLocation.add(latLngArray);
+                }
             }
             return proximity_Notification(myLatLong, otherUsersLocation);
         }
@@ -47,14 +51,18 @@ public class ProximityAlarm
         	ProximityAlarm proxAlarm = new ProximityAlarm();
         	//By This step we will be ready with Latitudes and longitudes of Source and list of Lat and Long of Dest coordinates
             boolean proximityCheck = false;
+            if (latLongsList==null||latLongsList.isEmpty()){
+                Log.d("**SDS", "returnig false");
+                return false;
+            }
             for (double[] latlongsdest : latLongsList)
             {
                 double Dist_In_Feet = distance(latlongsarraySrc[0], latlongsarraySrc[1],latlongsdest[0], latlongsdest[1],'F');
-                System.out.println(Dist_In_Feet + " fts");
+                Log.d("**SDS",Dist_In_Feet + " fts");
                 proximityCheck = proxAlarm.InsideProximityCheck(Dist_In_Feet);
                 if (proximityCheck)
                 {
-                	System.out.println("A person in "+Math.round(Dist_In_Feet) + " fts proximity is Observed. Be careful! Alarm ALarm Alarm!");
+                	Log.d("**SDS","A person in "+Math.round(Dist_In_Feet) + " fts proximity is Observed. Be careful! Alarm ALarm Alarm!");
                     break;
                 }
             }

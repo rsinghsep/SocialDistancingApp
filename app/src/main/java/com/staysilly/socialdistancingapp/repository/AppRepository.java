@@ -5,9 +5,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.staysilly.socialdistancingapp.models.UserLocation;
@@ -61,6 +65,26 @@ public class AppRepository {
                 });
 
         return retVal;
+    }
+    public static void logoutUser(String uuid){
+        if (uuid==null||uuid.isEmpty()){
+            return;
+        }
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = database.collection(USER_LOCATION_COLLECTION);
+        Query query = collectionReference.whereEqualTo("userId", uuid);
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> snapshots = queryDocumentSnapshots.getDocuments();
+                if (snapshots==null||snapshots.isEmpty()){
+                    return;
+                }
+
+                DocumentReference documentReference = snapshots.get(0).getReference();
+                documentReference.delete();
+            }
+        });
     }
     public static String getCurrentUserId(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
