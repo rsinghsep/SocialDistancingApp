@@ -20,9 +20,12 @@ import com.staysilly.socialdistancingapp.R;
 import com.staysilly.socialdistancingapp.models.UserLocation;
 import com.staysilly.socialdistancingapp.repository.AppRepository;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -45,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+        observeAllUsersLocation();
     }
 
 
@@ -84,6 +88,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                             longitude,
                             true);
                     AppRepository.saveUserCurrentLocation(userLocation);
+                }
+            }
+        });
+    }
+    private void observeAllUsersLocation(){
+        AppRepository.getAllUsersLocation().observe(this, new Observer<List<UserLocation>>() {
+            @Override
+            public void onChanged(List<UserLocation> userLocations) {
+                if (userLocations!=null && !userLocations.isEmpty()){
+                    Log.d("hello", "total " + userLocations.size() + " users found");
                 }
             }
         });
