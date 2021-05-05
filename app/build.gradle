@@ -43,4 +43,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-database:19.7.0'
 
+    //FIRE BASE FireStore
+    implementation "com.google.firebase:firebase-firestore:20.2.0"
+
 }
+apply plugin: 'com.google.gms.google-services'
