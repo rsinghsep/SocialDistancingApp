@@ -17,12 +17,13 @@
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
     <LinearLayout
-        android:id="@+id/crdSocialDistancingAlert"
+        android:id="@+id/lytSocialDistancingAlert"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_margin="8dp"
         android:layout_gravity="bottom"
         android:orientation="vertical"
+        android:visibility="invisible"
         android:background="#ffffff">
 
         <com.airbnb.lottie.LottieAnimationView

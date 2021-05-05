@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,6 +40,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
     private LatLng myCurrentLocation;
+    private LinearLayout lytSocialDistancingAlert;
 
 
     /*/////////////////////////////////////////////////
@@ -47,16 +50,21 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        lytSocialDistancingAlert = findViewById(R.id.lytSocialDistancingAlert);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+    }
 
     /*/////////////////////////////////////////////////
-    //PRIVATE METHODS
-    /*/////////////////////////////////////////////////
+        //PRIVATE METHODS
+        /*/////////////////////////////////////////////////
     private void moveMapToLastKnownLocation(final GoogleMap map) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -101,8 +109,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (userLocations!=null && !userLocations.isEmpty()){
                     if (ProximityAlarm.isProtocolBroken(myCurrentLocation, userLocations)){
                         Log.d(TAG, "proximity protocol is broken");
+                        lytSocialDistancingAlert.setVisibility(View.VISIBLE);
                     }else {
                         Log.d(TAG, "proximity protocol is not broken");
+                        lytSocialDistancingAlert.setVisibility(View.INVISIBLE);
                     }
                     for (UserLocation location : userLocations){
                         if (location!=null){
