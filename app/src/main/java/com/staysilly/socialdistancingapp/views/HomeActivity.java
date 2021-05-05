@@ -17,7 +17,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.staysilly.socialdistancingapp.R;
-import com.staysilly.socialdistancingapp.repository.AppRepository;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +43,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        AppRepository.setValue(HomeActivity.this);
     }
 
 

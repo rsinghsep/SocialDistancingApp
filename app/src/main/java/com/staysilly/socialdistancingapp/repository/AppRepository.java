@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.staysilly.socialdistancingapp.models.Location;
+import com.staysilly.socialdistancingapp.models.UserLocation;
 
 import java.util.UUID;
 
@@ -24,11 +24,11 @@ public class AppRepository {
     /*/////////////////////////////////////////////////
     //PRIVATE METHODS
     /*/////////////////////////////////////////////////
-    public static void setValue(Context context){
+    public static void saveUserCurrentLocation(Context context){
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = database.collection(USER_LOCATION_COLLECTION);
 
-        Location location = new Location("16582374-234723-2354823-75234", 12721.232, 432432.2123, true);
+        UserLocation location = new UserLocation("16582374-234723-2354823-75234", 12721.232, 432432.2123, true);
 
         collectionReference.document()
                 .set(location);

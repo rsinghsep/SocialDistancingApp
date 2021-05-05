@@ -1,6 +1,6 @@
 package com.staysilly.socialdistancingapp.models;
 
-public class Location {
+public class UserLocation {
 
     /*/////////////////////////////////////////////////
     //MEMBERS
@@ -44,12 +44,12 @@ public class Location {
     /*/////////////////////////////////////////////////
     //CONSTRUCTOR
     /*/////////////////////////////////////////////////
-    public Location(String id, double latitude, double longitude, boolean isOnline){
+    public UserLocation(String id, double latitude, double longitude, boolean isOnline){
         this.userId = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isOnline = isOnline;
     }
-    public Location(){}
+    public UserLocation(){}
 
 }
