@@ -15,6 +15,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.staysilly.socialdistancingapp.R;
 import com.staysilly.socialdistancingapp.models.UserLocation;
@@ -48,7 +49,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        observeAllUsersLocation();
     }
 
 
@@ -92,15 +92,29 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-    private void observeAllUsersLocation(){
+    private void observeAllUsersLocation(final GoogleMap map){
         AppRepository.getAllUsersLocation().observe(this, new Observer<List<UserLocation>>() {
             @Override
             public void onChanged(List<UserLocation> userLocations) {
                 if (userLocations!=null && !userLocations.isEmpty()){
-                    Log.d("hello", "total " + userLocations.size() + " users found");
+                    for (UserLocation location : userLocations){
+                        if (location!=null){
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            showUserOnMap(map, latLng);
+                        }
+                    }
                 }
             }
         });
+    }
+    private void showUserOnMap(GoogleMap map, LatLng latLng){
+        if (map==null||latLng==null){
+            return;
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        googleMap.addMarker(markerOptions);
     }
 
 
@@ -127,6 +141,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "permission is granted");
         googleMap.setMyLocationEnabled(true);
         moveMapToLastKnownLocation(googleMap);
+        observeAllUsersLocation(googleMap);
     }
 
 }
