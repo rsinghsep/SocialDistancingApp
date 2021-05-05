@@ -1,10 +1,12 @@
 package com.staysilly.socialdistancingapp.utils;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.staysilly.socialdistancingapp.models.UserLocation;
 
 import java.util.ArrayList;
+import java.util.List;
 
-class ProximityAlarm
+public class ProximityAlarm
     {
 //        public static void main(String[] args)
 //        {
@@ -30,11 +32,11 @@ class ProximityAlarm
 //          }
 //        }
         
-        public static boolean isProtocolBroken(LatLng myCurrentLocation, ArrayList<LatLng> onlineUsersLocation){
+        public static boolean isProtocolBroken(LatLng myCurrentLocation, List<UserLocation> onlineUsersLocation){
             double[] myLatLong = {myCurrentLocation.longitude, myCurrentLocation.longitude};
             ArrayList<double[]> otherUsersLocation = new ArrayList<>();
-            for (LatLng otherUser : onlineUsersLocation){
-                double[] latLngArray = {otherUser.longitude, otherUser.longitude};
+            for (UserLocation otherUserLocation : onlineUsersLocation){
+                double[] latLngArray = {otherUserLocation.getLatitude(), otherUserLocation.getLongitude()};
                 otherUsersLocation.add(latLngArray);
             }
             return proximity_Notification(myLatLong, otherUsersLocation);

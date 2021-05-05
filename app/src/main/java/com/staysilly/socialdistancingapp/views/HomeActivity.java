@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.staysilly.socialdistancingapp.R;
 import com.staysilly.socialdistancingapp.models.UserLocation;
 import com.staysilly.socialdistancingapp.repository.AppRepository;
+import com.staysilly.socialdistancingapp.utils.ProximityAlarm;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final String TAG = "**" + this.getClass().getSimpleName();
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationClient;
+    private LatLng myCurrentLocation;
 
 
     /*/////////////////////////////////////////////////
@@ -76,8 +78,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
 
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    CameraPosition myPosition = new CameraPosition.Builder().target(latLng).zoom(5).bearing(0).tilt(30).build();
+                    myCurrentLocation = new LatLng(latitude, longitude);
+                    CameraPosition myPosition = new CameraPosition.Builder().target(myCurrentLocation).zoom(5).bearing(0).tilt(30).build();
                     map.animateCamera(CameraUpdateFactory.newCameraPosition(myPosition));
 
                     String id = AppRepository.getCurrentUserId(HomeActivity.this);
@@ -97,6 +99,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onChanged(List<UserLocation> userLocations) {
                 if (userLocations!=null && !userLocations.isEmpty()){
+                    if (ProximityAlarm.isProtocolBroken(myCurrentLocation, userLocations)){
+                        Log.d(TAG, "proximity protocol is broken");
+                    }else {
+                        Log.d(TAG, "proximity protocol is not broken");
+                    }
                     for (UserLocation location : userLocations){
                         if (location!=null){
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
