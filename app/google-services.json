@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "101070248090",
+    "firebase_url": "https://sincere-kit-312419-default-rtdb.firebaseio.com",
+    "project_id": "sincere-kit-312419",
+    "storage_bucket": "sincere-kit-312419.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101070248090:android:fba59a15144262a772e723",
+        "android_client_info": {
+          "package_name": "com.staysilly.socialdistancingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101070248090-1jm1t0audtlbm7au14uh31t31hrbcjkn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.staysilly.socialdistancingapp",
+            "certificate_hash": "9c5b264cec63c3ee84da1734c231c834dcb60dc7"
+          }
+        },
+        {
+          "client_id": "101070248090-pljpk73nk8ikpo8m9ddnsi9ou4vr27fd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2sQi0KIC2xorR89uV-DIViMlD7WzR7LU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101070248090-pljpk73nk8ikpo8m9ddnsi9ou4vr27fd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
